@@ -3,6 +3,7 @@ import requests
 import json
 import newspaper
 import os
+import time
 from tqdm import tqdm
 
 def get_urls(url:str) -> list[str]:
@@ -39,6 +40,10 @@ def get_article(url:str):
         'top_image' : str(article.top_image),
         'keywords' : str(article.keywords),
         'summary' : str(article.summary),
+        'url' : str(url),
+        'timestamp' : str(time.time()),
+        'displayed': 0
+
     }
 
     return article_data
@@ -54,6 +59,6 @@ for url in tqdm(url_master, desc="Processing URLs"):
     for url in tqdm(urls, desc="Processing URLs within Master URL"):
         article = get_article(url)
         with open('data.json', 'a') as f:
-            f.write(url + '\n')
+            f.write('//   '+url + '\n')
             json.dump(article, f)
             f.write('\n')
