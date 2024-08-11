@@ -1,8 +1,7 @@
 from bs4 import BeautifulSoup
-import requests 
+import requests
 import json
 import newspaper
-import json
 import time
 from tqdm import tqdm
 
@@ -33,8 +32,8 @@ def get_article(url: str):
         article.download()
         article.parse()
     except Exception as e:
-        print(e)
-        pass
+        print(f"Error processing {url}: {e}")
+        return None  # Return None if there's an error
 
     article_data = {
         'title': str(article.title),
@@ -50,6 +49,36 @@ def get_article(url: str):
 
     return article_data
 
+def read_existing_articles():
+    try:
+        with open('data.json', 'r') as f:
+            existing_articles = json.load(f)
+            existing_urls = {article['url'] for article in existing_articles}
+    except (FileNotFoundError, json.JSONDecodeError):
+        existing_articles = []
+        existing_urls = set()
+
+    return existing_articles, existing_urls
+
+def write_articles_to_file(articles):
+    try:
+        with open('data.json', 'r') as f:
+            existing_articles = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        existing_articles = []
+
+    existing_urls = {article['url'] for article in existing_articles}
+
+    # Filter out duplicates
+    new_articles = [article for article in articles if article['url'] not in existing_urls]
+
+    # Append new articles
+    existing_articles.extend(new_articles)
+
+    # Write all articles back to the file
+    with open('data.json', 'w') as f:
+        json.dump(existing_articles, f, indent=4)
+
 def masterScraper():
     url_master = [
         'https://www.theverge.com/',
@@ -59,20 +88,33 @@ def masterScraper():
         'https://techcrunch.com/category/startups/',
         'https://www.theverge.com/ai-artificial-intelligence',
     ]
-    total = 0
+
     while True:
-        for url in tqdm(url_master, desc="Processing URLs"):
-            urls = get_urls(url)
-            print('The number of links', len(urls))
-            total += len(urls)
-            print('The total number of links', total)
-            for url in tqdm(urls, desc="Processing URLs within Master URL"):
-                article = get_article(url)
-                with open('data.json', 'a') as f:
-                    json.dump(article, f)
-                    f.write('\n')
+        start_time = time.time()
+        print(f"Starting scraping session at {time.ctime(start_time)}...")
+        all_articles = []  # Initialize an empty list to store articles
+
+        while time.time() - start_time < 60:  # Scrape for 1 minute
+            for url in tqdm(url_master, desc="Processing URLs"):
+                urls = get_urls(url)
+                print(f'The number of links: {len(urls)}')
+                
+                for link in tqdm(urls, desc="Processing URLs within Master URL"):
+                    if time.time() - start_time >= 60:  # Check if the time limit has been reached
+                        break
+                    article = get_article(link)
+                    if article:
+                        all_articles.append(article)
+                
+                if time.time() - start_time >= 60:  # Break the outer loop if time limit is reached
+                    break
+
+        # Write new articles to data.json
+        print("Dumping data to data.json...")
+        write_articles_to_file(all_articles)
+
+        print("Scraping session completed. Data appended to data.json")
+        time.sleep(60)  # Wait for 1 minute before starting the next scraping session
 
 # Run the masterScraper function
 masterScraper()
-
-

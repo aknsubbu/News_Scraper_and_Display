@@ -1,20 +1,13 @@
-"use client";
 import React, { useEffect, useState } from "react";
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code";
-import { button as buttonStyles } from "@nextui-org/theme";
 
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+import NewsCard from "@/components/NewsCard";
 
 interface Article {
   title: string;
   text: string;
-  authors: string[];
+  authors?: string[];
   top_image: string;
-  keywords: string[];
+  keywords?: string[];
   summary: string;
   url: string;
   timestamp: string;
@@ -24,48 +17,59 @@ interface Article {
 export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
 
+  const fetchArticles = async () => {
+    try {
+      const response = await fetch("/api/articles");
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+
+      setArticles((prevArticles) => {
+        const newArticles = data.filter(
+          (newArticle: Article) =>
+            !prevArticles.some(
+              (prevArticle) => prevArticle.url === newArticle.url
+            )
+        );
+
+        return [...newArticles, ...prevArticles];
+      });
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+    }
+  };
+
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8000/ws");
+    fetchArticles();
+    const intervalId = setInterval(fetchArticles, 60000);
 
-    ws.onmessage = (event) => {
-      const newArticle = JSON.parse(event.data);
-
-      setArticles((prevArticles) => [...prevArticles, newArticle]);
-    };
-
-    ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-
-    ws.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
-
-    return () => {
-      ws.close();
-    };
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-lg text-center justify-center">
-        <h1 className={title()}>Make&nbsp;</h1>
-        <h1 className={title({ color: "violet" })}>beautiful&nbsp;</h1>
-        <br />
-        <h1 className={title()}>
-          websites regardless of your design experience.
-        </h1>
-        <h2 className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </h2>
-      </div>
-
       <div>
-        <ul>
+        <ul className="space-y-4">
           {articles.map((article, index) => (
-            <li key={index}>
-              <h2>{article.title}</h2>
-              <p>{article.text}</p>
+            <li
+              key={article.url}
+              className="opacity-0 translate-y-4 animate-fade-in-up"
+              style={{
+                animationDelay: `${index * 100}ms`,
+                animationFillMode: "forwards",
+              }}
+            >
+              <NewsCard
+                authors={article.authors || []}
+                keywords={article.keywords || []}
+                summary={article.summary}
+                text={article.text}
+                timestamp={article.timestamp}
+                title={article.title}
+                top_image={article.top_image}
+              />
             </li>
           ))}
         </ul>
