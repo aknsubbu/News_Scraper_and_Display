@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 
 import NewsCard from "@/components/NewsCard";
 
+// main page
+
 interface Article {
   title: string;
   text: string;
