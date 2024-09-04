@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 
 import NewsCard from "@/components/NewsCard";
 
-// main page
-
 interface Article {
   title: string;
   text: string;
@@ -30,14 +28,18 @@ export default function Home() {
       const data = await response.json();
 
       setArticles((prevArticles) => {
-        const newArticles = data.filter(
-          (newArticle: Article) =>
-            !prevArticles.some(
-              (prevArticle) => prevArticle.url === newArticle.url
-            )
+        const combinedArticles = [...data, ...prevArticles];
+        // Filter out duplicate articles based on the 'url'
+        const uniqueArticles = combinedArticles.filter(
+          (article, index, self) =>
+            index === self.findIndex((t) => t.url === article.url)
         );
 
-        return [...newArticles, ...prevArticles];
+        // Sort articles by timestamp in descending order
+        return uniqueArticles.sort(
+          (a, b) =>
+            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        );
       });
     } catch (error) {
       console.error("Error fetching articles:", error);
@@ -46,7 +48,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchArticles();
-    const intervalId = setInterval(fetchArticles, 60000);
+    const intervalId = setInterval(fetchArticles, 5000); // Fetch every 15 seconds
 
     return () => clearInterval(intervalId);
   }, []);
@@ -64,15 +66,7 @@ export default function Home() {
                 animationFillMode: "forwards",
               }}
             >
-              <NewsCard
-                authors={article.authors || []}
-                keywords={article.keywords || []}
-                summary={article.summary}
-                text={article.text}
-                timestamp={article.timestamp}
-                title={article.title}
-                top_image={article.top_image}
-              />
+              <NewsCard article={article} />
             </li>
           ))}
         </ul>

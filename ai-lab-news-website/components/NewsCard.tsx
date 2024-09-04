@@ -1,60 +1,110 @@
 import React from "react";
-import { Card, Image, CardBody } from "@nextui-org/react";
-import { Divider } from "@nextui-org/divider";
+import { ExternalLink } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 interface NewsCardProps {
   title: string;
   text: string;
-  authors?: string[]; // If authors is a string
+  authors?: string[] | string;
   top_image: string;
-  keywords: string[]; // This should always be an array
+  keywords?: string[] | string;
   summary: string;
+  url: string;
   timestamp: string;
+  displayed: number;
 }
 
-const NewsCard: React.FC<NewsCardProps> = ({
-  title,
-  text,
-  authors,
-  top_image,
-  keywords,
-  summary,
-  timestamp,
-}) => {
-  return (
-    <Card
-      isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 max-w-[910px] m-10"
-      shadow="sm"
-    >
-      <CardBody>
-        <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-start justify-start p-10">
-          <div className="relative col-span-6 md:col-span-4">
-            <Image
-              alt={title}
-              className="object-cover"
-              height={200}
-              shadow="md"
-              src={top_image}
-              width="100%"
-            />
-          </div>
+export default function NewsCard({ article }: { article: NewsCardProps }) {
+  // Function to safely get keywords as an array
+  const getKeywords = (keywords?: string[] | string): string[] => {
+    if (Array.isArray(keywords)) {
+      return keywords.filter((k) => k.trim() !== "");
+    } else if (typeof keywords === "string") {
+      return keywords
+        .split(",")
+        .map((k) => k.trim())
+        .filter((k) => k !== "");
+    }
+    return [];
+  };
 
-          <div className="flex flex-col col-span-6 md:col-span-8">
-            <div className="flex justify-start items-start">
-              <div className="flex flex-col gap-0">
-                <p className="text-2xl text-foreground/80 pb-10">
-                  {text.slice(0, 180) + "..."}
-                </p>
-                <Divider />
-                <h1 className="text-xl pb-5">{title}</h1>
-              </div>
-            </div>
+  // Function to safely get authors as an array
+  const getAuthors = (authors?: string[] | string): string[] => {
+    if (Array.isArray(authors)) {
+      return authors.filter((a) => a.trim() !== "");
+    } else if (typeof authors === "string") {
+      return authors
+        .split(",")
+        .map((a) => a.trim())
+        .filter((a) => a !== "");
+    }
+    return [];
+  };
+
+  const keywordsArray = getKeywords(article.keywords);
+  const authorsArray = getAuthors(article.authors);
+
+  return (
+    <Card className="w-full max-w-3xl overflow-hidden transition-shadow duration-300 hover:shadow-lg m-10 border-2 border-gray-700">
+      <CardHeader className="p-0">
+        <img
+          src={article.top_image}
+          alt={article.title}
+          className="w-full h-56 object-cover"
+        />
+      </CardHeader>
+      <CardContent className="p-4">
+        <h2 className="text-2xl font-semibold mb-2 line-clamp-2">
+          {article.title}
+        </h2>
+        {(article.summary || article.text) && (
+          <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+            {article.summary || article.text}
+          </p>
+        )}
+        {/* {keywordsArray.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {keywordsArray.slice(0, 3).map((keyword, index) => (
+              <Badge key={index} variant="secondary" className="text-xs">
+                {keyword}
+              </Badge>
+            ))}
           </div>
-        </div>
-      </CardBody>
+        )} */}
+      </CardContent>
+      {/* <CardFooter className="p-4 pt-0 flex items-center justify-between">
+        {authorsArray.length > 0 && (
+          <div className="flex items-center space-x-2">
+            <Avatar className="w-6 h-6">
+              <AvatarImage
+                src={`https://ui-avatars.com/api/?name=${authorsArray[0]}&background=random`}
+              />
+              <AvatarFallback>{authorsArray[0].charAt(0)}</AvatarFallback>
+            </Avatar>
+            <span className="text-sm text-gray-600">
+              {authorsArray.join(", ")}
+            </span>
+          </div>
+        )}
+        {!authorsArray.length && (
+          <span className="text-sm text-gray-600">Unknown Author</span>
+        )}
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:text-blue-800 transition-colors duration-300"
+        >
+          <ExternalLink size={20} />
+        </a>
+      </CardFooter> */}
     </Card>
   );
-};
-
-export default NewsCard;
+}

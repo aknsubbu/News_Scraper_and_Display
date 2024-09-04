@@ -69,15 +69,18 @@ def write_articles_to_file(articles):
 
     existing_urls = {article['url'] for article in existing_articles}
 
-    # Filter out duplicates
+    # Filter out duplicates and add new articles
     new_articles = [article for article in articles if article['url'] not in existing_urls]
-
-    # Append new articles
-    existing_articles.extend(new_articles)
+    
+    # Combine new and existing articles
+    all_articles = new_articles + existing_articles
+    
+    # Sort all articles by timestamp (newest first)
+    all_articles.sort(key=lambda x: float(x['timestamp']), reverse=True)
 
     # Write all articles back to the file
     with open('data.json', 'w') as f:
-        json.dump(existing_articles, f, indent=4)
+        json.dump(all_articles, f, indent=4)
 
 def masterScraper():
     url_master = [
@@ -88,33 +91,28 @@ def masterScraper():
         'https://techcrunch.com/category/startups/',
         'https://www.theverge.com/ai-artificial-intelligence',
     ]
-
+    
     while True:
         start_time = time.time()
         print(f"Starting scraping session at {time.ctime(start_time)}...")
         all_articles = []  # Initialize an empty list to store articles
 
-        while time.time() - start_time < 60:  # Scrape for 1 minute
-            for url in tqdm(url_master, desc="Processing URLs"):
-                urls = get_urls(url)
-                print(f'The number of links: {len(urls)}')
+        for url in tqdm(url_master, desc="Processing URLs"):
+            urls = get_urls(url)
+            print(f'The number of links: {len(urls)}')
+            for link in tqdm(urls, desc="Processing URLs within Master URL"):
+                article = get_article(link)
+                if article:
+                    all_articles.append(article)
                 
-                for link in tqdm(urls, desc="Processing URLs within Master URL"):
-                    if time.time() - start_time >= 60:  # Check if the time limit has been reached
-                        break
-                    article = get_article(link)
-                    if article:
-                        all_articles.append(article)
-                
-                if time.time() - start_time >= 60:  # Break the outer loop if time limit is reached
-                    break
+                # Write to file every 10 articles or if it's the last article
+                if len(all_articles) % 4 == 0 or link == urls[-1]:
+                    print("Writing articles to data.json...")
+                    write_articles_to_file(all_articles)
+                    all_articles = []  # Clear the list after writing
 
-        # Write new articles to data.json
-        print("Dumping data to data.json...")
-        write_articles_to_file(all_articles)
-
-        print("Scraping session completed. Data appended to data.json")
-        time.sleep(60)  # Wait for 1 minute before starting the next scraping session
+        print("Scraping session completed. Waiting before next session...")
+        time.sleep(15)  # Wait for 30 seconds before starting the next scraping session
 
 # Run the masterScraper function
 masterScraper()
