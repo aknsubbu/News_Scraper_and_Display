@@ -90,6 +90,10 @@ def masterScraper():
         'https://techcrunch.com/category/artificial-intelligence/',
         'https://techcrunch.com/category/startups/',
         'https://www.theverge.com/ai-artificial-intelligence',
+        "https://arstechnica.com",
+        "https://www.engadget.com/?guccounter=1",
+        "https://www.cnet.com",
+        "https://www.techradar.com",
     ]
     
     while True:

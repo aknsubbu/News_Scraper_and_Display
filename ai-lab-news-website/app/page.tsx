@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import NewsCard from "@/components/NewsCard";
 
 interface Article {
@@ -21,12 +20,10 @@ export default function Home() {
   const fetchArticles = async () => {
     try {
       const response = await fetch("/api/articles");
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-
       setArticles((prevArticles) => {
         const combinedArticles = [...data, ...prevArticles];
         // Filter out duplicate articles based on the 'url'
@@ -34,7 +31,6 @@ export default function Home() {
           (article, index, self) =>
             index === self.findIndex((t) => t.url === article.url)
         );
-
         // Sort articles by timestamp in descending order
         return uniqueArticles.sort(
           (a, b) =>
@@ -48,29 +44,17 @@ export default function Home() {
 
   useEffect(() => {
     fetchArticles();
-    const intervalId = setInterval(fetchArticles, 5000); // Fetch every 15 seconds
-
+    const intervalId = setInterval(fetchArticles, 15000); // Fetch every 15 seconds
     return () => clearInterval(intervalId);
   }, []);
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div>
-        <ul className="space-y-4">
-          {articles.map((article, index) => (
-            <li
-              key={article.url}
-              className="opacity-0 translate-y-4 animate-fade-in-up"
-              style={{
-                animationDelay: `${index * 100}ms`,
-                animationFillMode: "forwards",
-              }}
-            >
-              <NewsCard article={article} />
-            </li>
-          ))}
-        </ul>
+    <div className="container mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {articles.map((article, index) => (
+          <NewsCard key={article.url} article={article} />
+        ))}
       </div>
-    </section>
+    </div>
   );
 }
