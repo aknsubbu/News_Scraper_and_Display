@@ -5,17 +5,7 @@ import path from "path";
 const ABSOLUTE_PATH_TO_JSON =
   "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/data.json";
 
-interface Article {
-  title: string;
-  text: string;
-  authors?: string[];
-  top_image: string;
-  keywords?: string[];
-  summary: string;
-  url: string;
-  timestamp: string;
-  displayed: number;
-}
+import { Article } from "@/types/article";
 
 export async function GET() {
   try {
@@ -26,7 +16,7 @@ export async function GET() {
     // Sort the articles by timestamp in descending order (newest first)
     const sortedData = data.sort(
       (a: Article, b: Article) =>
-        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
     );
 
     return new Response(JSON.stringify(sortedData), {

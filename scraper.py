@@ -4,6 +4,8 @@ import json
 import newspaper
 import time
 from tqdm import tqdm
+import os
+from datetime import datetime
 
 def get_urls(url: str) -> list[str]:
     base_urls = {
@@ -82,6 +84,17 @@ def write_articles_to_file(articles):
     with open('data.json', 'w') as f:
         json.dump(all_articles, f, indent=4)
 
+def archive_data_json():
+    if os.path.exists('data.json'):
+        now = datetime.now()
+        archive_folder = 'data_archives'
+        if not os.path.exists(archive_folder):
+            os.makedirs(archive_folder)
+        archive_file = os.path.join(archive_folder, f'data_{now.strftime("%Y%m%d_%H%M%S")}.json')
+        os.rename('data.json', archive_file)
+        print(f'Archived data.json to {archive_file}')
+        open('data.json', 'w').close()  # Create a new empty data.json file
+
 def masterScraper():
     url_master = [
         'https://www.theverge.com/',
@@ -115,8 +128,14 @@ def masterScraper():
                     write_articles_to_file(all_articles)
                     all_articles = []  # Clear the list after writing
 
-        print("Scraping session completed. Waiting before next session...")
-        time.sleep(15)  # Wait for 30 seconds before starting the next scraping session
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        if elapsed_time < 300:  # 5 minutes
+            print("Scraping session completed. Waiting before next session...")
+            time.sleep(15)  # Wait for 15 seconds before starting the next scraping session
+        else:
+            print("No new links found in 5 minutes. Archiving data.json and starting a new scraping session.")
+            archive_data_json()
 
 # Run the masterScraper function
 masterScraper()
