@@ -49,7 +49,7 @@ module.exports = {
       name: "nextjs-app",
       script: "npm",
       args: "start",
-      cwd: "./ai-website",
+      cwd: "./ai-lab-news-website",
       env: {
         NODE_ENV: "production",
       },
