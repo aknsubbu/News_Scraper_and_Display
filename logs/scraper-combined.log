@@ -1,0 +1,485 @@
+2024-09-10T10:10:21: Starting scraping session at Tue Sep 10 10:10:21 2024...
+2024-09-10T10:10:21: Processing URLs:   0%|          | 0/10 [00:00<?, ?it/s]
+2024-09-10T10:10:22: The number of links: 0
+2024-09-10T10:10:22: 
+2024-09-10T10:10:22: Processing URLs within Master URL: 0it [00:00, ?it/s][AProcessing URLs within Master URL: 0it [00:00, ?it/s]
+2024-09-10T10:10:25: The number of links: 123
+2024-09-10T10:10:25: 
+2024-09-10T10:10:27: 
+2024-09-10T10:10:27: Processing URLs within Master URL:   1%|          | 1/123 [00:02<04:32,  2.23s/it][A
+2024-09-10T10:10:31: 
+2024-09-10T10:10:31: Processing URLs within Master URL:   2%|▏         | 2/123 [00:05<05:51,  2.91s/it][A
+2024-09-10T10:10:31: Processing URLs within Master URL:   2%|▏         | 2/123 [00:05<05:48,  2.88s/it]
+2024-09-10T10:10:31: Processing URLs:  10%|█         | 1/10 [00:09<01:26,  9.61s/it]
+2024-09-10T10:10:31: Traceback (most recent call last):
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 141, in <module>
+2024-09-10T10:10:31:     masterScraper()
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 121, in masterScraper
+2024-09-10T10:10:31:     article = get_article(link)
+2024-09-10T10:10:31:               ^^^^^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 34, in get_article
+2024-09-10T10:10:31:     article.download()
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/newspaper/article.py", line 170, in download
+2024-09-10T10:10:31:     html = network.get_html_2XX_only(self.url, self.config)
+2024-09-10T10:10:31:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/newspaper/network.py", line 62, in get_html_2XX_only
+2024-09-10T10:10:31:     response = requests.get(
+2024-09-10T10:10:31:         ^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/api.py", line 73, in get
+2024-09-10T10:10:31:     return request("get", url, params=params, **kwargs)
+2024-09-10T10:10:31:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/api.py", line 59, in request
+2024-09-10T10:10:31:     return session.request(method=method, url=url, **kwargs)
+2024-09-10T10:10:31:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+2024-09-10T10:10:31:     resp = self.send(prep, **send_kwargs)
+2024-09-10T10:10:31:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+2024-09-10T10:10:31:     r = adapter.send(request, **kwargs)
+2024-09-10T10:10:31:         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+2024-09-10T10:10:31:     resp = conn.urlopen(
+2024-09-10T10:10:31:   ^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+2024-09-10T10:10:31:     response = self._make_request(
+2024-09-10T10:10:31:                ^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+2024-09-10T10:10:31:     self._validate_conn(conn)
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1095, in _validate_conn
+2024-09-10T10:10:31:     conn.connect()
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 615, in connect
+2024-09-10T10:10:31:     self.sock = sock = self._new_conn()
+2024-09-10T10:10:31:                        ^^^^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 196, in _new_conn
+2024-09-10T10:10:31:     sock = connection.create_connection(
+2024-09-10T10:10:31:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:10:31:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+2024-09-10T10:10:31:     sock.connect(sa)
+2024-09-10T10:10:31: KeyboardInterrupt
+2024-09-10T10:10:33: Starting scraping session at Tue Sep 10 10:10:33 2024...
+2024-09-10T10:10:33: Processing URLs:   0%|          | 0/10 [00:00<?, ?it/s]
+2024-09-10T10:10:34: The number of links: 0
+2024-09-10T10:10:34: 
+2024-09-10T10:10:34: Processing URLs within Master URL: 0it [00:00, ?it/s][AProcessing URLs within Master URL: 0it [00:00, ?it/s]
+2024-09-10T10:10:36: The number of links: 123
+2024-09-10T10:10:36: 
+2024-09-10T10:10:37: 
+2024-09-10T10:10:37: Processing URLs within Master URL:   1%|          | 1/123 [00:01<03:23,  1.67s/it][A
+2024-09-10T10:10:40: 
+2024-09-10T10:10:40: Processing URLs within Master URL:   2%|▏         | 2/123 [00:04<04:32,  2.25s/it][A
+2024-09-10T10:10:42: 
+2024-09-10T10:10:42: Processing URLs within Master URL:   2%|▏         | 3/123 [00:06<04:02,  2.02s/it][A
+2024-09-10T10:10:44: Writing articles to data.json...
+2024-09-10T10:10:44: 
+2024-09-10T10:10:44: Processing URLs within Master URL:   3%|▎         | 4/123 [00:08<03:56,  1.99s/it][A
+2024-09-10T10:10:45: 
+2024-09-10T10:10:45: Processing URLs within Master URL:   4%|▍         | 5/123 [00:09<03:41,  1.88s/it][A
+2024-09-10T10:10:47: 
+2024-09-10T10:10:47: Processing URLs within Master URL:   5%|▍         | 6/123 [00:11<03:29,  1.79s/it][A
+2024-09-10T10:10:49: 
+2024-09-10T10:10:49: Processing URLs within Master URL:   6%|▌         | 7/123 [00:13<03:28,  1.80s/it][A
+2024-09-10T10:10:51: Writing articles to data.json...
+2024-09-10T10:10:51: 
+2024-09-10T10:10:51: Processing URLs within Master URL:   7%|▋         | 8/123 [00:15<03:39,  1.91s/it][A
+2024-09-10T10:10:53: 
+2024-09-10T10:10:53: Processing URLs within Master URL:   7%|▋         | 9/123 [00:17<03:36,  1.90s/it][A
+2024-09-10T10:10:55: 
+2024-09-10T10:10:55: Processing URLs within Master URL:   8%|▊         | 10/123 [00:18<03:25,  1.82s/it][A
+2024-09-10T10:10:57: 
+2024-09-10T10:10:57: Processing URLs within Master URL:   9%|▉         | 11/123 [00:20<03:30,  1.88s/it][A
+2024-09-10T10:10:58: Writing articles to data.json...
+2024-09-10T10:10:58: 
+2024-09-10T10:10:58: Processing URLs within Master URL:  10%|▉         | 12/123 [00:22<03:26,  1.86s/it][A
+2024-09-10T10:11:00: 
+2024-09-10T10:11:00: Processing URLs within Master URL:  11%|█         | 13/123 [00:24<03:18,  1.81s/it][A
+2024-09-10T10:11:02: 
+2024-09-10T10:11:02: Processing URLs within Master URL:  11%|█▏        | 14/123 [00:25<03:11,  1.76s/it][A
+2024-09-10T10:11:04: 
+2024-09-10T10:11:04: Processing URLs within Master URL:  12%|█▏        | 15/123 [00:27<03:14,  1.80s/it][A
+2024-09-10T10:11:06: Writing articles to data.json...
+2024-09-10T10:11:06: 
+2024-09-10T10:11:06: Processing URLs within Master URL:  13%|█▎        | 16/123 [00:30<03:25,  1.92s/it][A
+2024-09-10T10:11:07: 
+2024-09-10T10:11:07: Processing URLs within Master URL:  14%|█▍        | 17/123 [00:31<03:05,  1.75s/it][A
+2024-09-10T10:11:09: 
+2024-09-10T10:11:09: Processing URLs within Master URL:  15%|█▍        | 18/123 [00:33<03:04,  1.76s/it][A
+2024-09-10T10:11:11: 
+2024-09-10T10:11:11: Processing URLs within Master URL:  15%|█▌        | 19/123 [00:35<03:07,  1.80s/it][A
+2024-09-10T10:11:13: Writing articles to data.json...
+2024-09-10T10:11:13: 
+2024-09-10T10:11:13: Processing URLs within Master URL:  16%|█▋        | 20/123 [00:37<03:15,  1.89s/it][A
+2024-09-10T10:11:15: 
+2024-09-10T10:11:15: Processing URLs within Master URL:  17%|█▋        | 21/123 [00:39<03:17,  1.94s/it][A
+2024-09-10T10:11:17: 
+2024-09-10T10:11:17: Processing URLs within Master URL:  18%|█▊        | 22/123 [00:40<03:07,  1.86s/it][A
+2024-09-10T10:11:19: 
+2024-09-10T10:11:19: Processing URLs within Master URL:  19%|█▊        | 23/123 [00:42<03:07,  1.88s/it][A
+2024-09-10T10:11:20: Writing articles to data.json...
+2024-09-10T10:11:20: 
+2024-09-10T10:11:20: Processing URLs within Master URL:  20%|█▉        | 24/123 [00:44<02:58,  1.80s/it][A
+2024-09-10T10:11:22: 
+2024-09-10T10:11:22: Processing URLs within Master URL:  20%|██        | 25/123 [00:46<02:55,  1.79s/it][A
+2024-09-10T10:11:24: 
+2024-09-10T10:11:24: Processing URLs within Master URL:  21%|██        | 26/123 [00:48<02:54,  1.80s/it][A
+2024-09-10T10:11:26: 
+2024-09-10T10:11:26: Processing URLs within Master URL:  22%|██▏       | 27/123 [00:49<02:53,  1.81s/it][A
+2024-09-10T10:11:27: Writing articles to data.json...
+2024-09-10T10:11:27: 
+2024-09-10T10:11:27: Processing URLs within Master URL:  23%|██▎       | 28/123 [00:51<02:47,  1.76s/it][A
+2024-09-10T10:11:29: 
+2024-09-10T10:11:29: Processing URLs within Master URL:  24%|██▎       | 29/123 [00:53<02:50,  1.81s/it][A
+2024-09-10T10:11:31: 
+2024-09-10T10:11:31: Processing URLs within Master URL:  24%|██▍       | 30/123 [00:55<02:52,  1.85s/it][A
+2024-09-10T10:11:33: 
+2024-09-10T10:11:33: Processing URLs within Master URL:  25%|██▌       | 31/123 [00:57<02:53,  1.89s/it][A
+2024-09-10T10:11:35: Writing articles to data.json...
+2024-09-10T10:11:35: 
+2024-09-10T10:11:35: Processing URLs within Master URL:  26%|██▌       | 32/123 [00:59<02:50,  1.87s/it][A
+2024-09-10T10:11:37: 
+2024-09-10T10:11:37: Processing URLs within Master URL:  27%|██▋       | 33/123 [01:01<02:48,  1.87s/it][A
+2024-09-10T10:11:39: 
+2024-09-10T10:11:39: Processing URLs within Master URL:  28%|██▊       | 34/123 [01:02<02:45,  1.85s/it][A
+2024-09-10T10:11:40: 
+2024-09-10T10:11:40: Processing URLs within Master URL:  28%|██▊       | 35/123 [01:04<02:37,  1.80s/it][A
+2024-09-10T10:11:42: Writing articles to data.json...
+2024-09-10T10:11:42: 
+2024-09-10T10:11:42: Processing URLs within Master URL:  29%|██▉       | 36/123 [01:06<02:32,  1.76s/it][A
+2024-09-10T10:11:44: 
+2024-09-10T10:11:44: Processing URLs within Master URL:  30%|███       | 37/123 [01:07<02:28,  1.73s/it][A
+2024-09-10T10:11:45: 
+2024-09-10T10:11:45: Processing URLs within Master URL:  31%|███       | 38/123 [01:09<02:26,  1.72s/it][A
+2024-09-10T10:11:47: 
+2024-09-10T10:11:47: Processing URLs within Master URL:  32%|███▏      | 39/123 [01:11<02:29,  1.78s/it][A
+2024-09-10T10:11:49: Writing articles to data.json...
+2024-09-10T10:11:49: 
+2024-09-10T10:11:49: Processing URLs within Master URL:  33%|███▎      | 40/123 [01:13<02:34,  1.86s/it][A
+2024-09-10T10:11:51: 
+2024-09-10T10:11:51: Processing URLs within Master URL:  33%|███▎      | 41/123 [01:15<02:29,  1.82s/it][A
+2024-09-10T10:11:53: 
+2024-09-10T10:11:53: Processing URLs within Master URL:  34%|███▍      | 42/123 [01:16<02:23,  1.78s/it][A
+2024-09-10T10:11:56: 
+2024-09-10T10:11:56: Processing URLs within Master URL:  35%|███▍      | 43/123 [01:19<02:47,  2.09s/it][A
+2024-09-10T10:11:58: Writing articles to data.json...
+2024-09-10T10:11:58: 
+2024-09-10T10:11:58: Processing URLs within Master URL:  36%|███▌      | 44/123 [01:22<02:51,  2.18s/it][A
+2024-09-10T10:12:00: 
+2024-09-10T10:12:00: Processing URLs within Master URL:  37%|███▋      | 45/123 [01:24<02:44,  2.11s/it][A
+2024-09-10T10:12:02: 
+2024-09-10T10:12:02: Processing URLs within Master URL:  37%|███▋      | 46/123 [01:26<02:39,  2.07s/it][A
+2024-09-10T10:12:04: 
+2024-09-10T10:12:04: Processing URLs within Master URL:  38%|███▊      | 47/123 [01:27<02:33,  2.02s/it][A
+2024-09-10T10:12:06: Writing articles to data.json...
+2024-09-10T10:12:06: 
+2024-09-10T10:12:06: Processing URLs within Master URL:  39%|███▉      | 48/123 [01:29<02:28,  1.98s/it][A
+2024-09-10T10:12:07: 
+2024-09-10T10:12:07: Processing URLs within Master URL:  40%|███▉      | 49/123 [01:31<02:22,  1.93s/it][A
+2024-09-10T10:12:09: 
+2024-09-10T10:12:09: Processing URLs within Master URL:  41%|████      | 50/123 [01:33<02:21,  1.94s/it][A
+2024-09-10T10:12:11: 
+2024-09-10T10:12:11: Processing URLs within Master URL:  41%|████▏     | 51/123 [01:35<02:21,  1.97s/it][A
+2024-09-10T10:12:14: Writing articles to data.json...
+2024-09-10T10:12:14: 
+2024-09-10T10:12:14: Processing URLs within Master URL:  42%|████▏     | 52/123 [01:38<02:27,  2.08s/it][A
+2024-09-10T10:12:15: 
+2024-09-10T10:12:15: Processing URLs within Master URL:  43%|████▎     | 53/123 [01:39<02:15,  1.94s/it][A
+2024-09-10T10:12:18: 
+2024-09-10T10:12:18: Processing URLs within Master URL:  44%|████▍     | 54/123 [01:41<02:16,  1.98s/it][A
+2024-09-10T10:12:19: 
+2024-09-10T10:12:21: Writing articles to data.json...
+2024-09-10T10:12:21: 
+2024-09-10T10:12:21: Processing URLs within Master URL:  46%|████▌     | 56/123 [01:44<01:59,  1.78s/it][A
+2024-09-10T10:12:22: 
+2024-09-10T10:12:22: Processing URLs within Master URL:  46%|████▋     | 57/123 [01:46<01:53,  1.72s/it][A
+2024-09-10T10:12:24: 
+2024-09-10T10:12:24: Processing URLs within Master URL:  47%|████▋     | 58/123 [01:48<01:49,  1.69s/it][A
+2024-09-10T10:12:25: 
+2024-09-10T10:12:25: Processing URLs within Master URL:  48%|████▊     | 59/123 [01:49<01:45,  1.65s/it][A
+2024-09-10T10:12:27: Writing articles to data.json...
+2024-09-10T10:12:27: 
+2024-09-10T10:12:27: Processing URLs within Master URL:  49%|████▉     | 60/123 [01:51<01:50,  1.75s/it][A
+2024-09-10T10:12:29: 
+2024-09-10T10:12:29: Processing URLs within Master URL:  50%|████▉     | 61/123 [01:53<01:52,  1.81s/it][A
+2024-09-10T10:12:31: 
+2024-09-10T10:12:31: Processing URLs within Master URL:  50%|█████     | 62/123 [01:55<01:56,  1.91s/it][A
+2024-09-10T10:12:33: 
+2024-09-10T10:12:33: Processing URLs within Master URL:  51%|█████     | 63/123 [01:57<01:53,  1.90s/it][A
+2024-09-10T10:12:35: Writing articles to data.json...
+2024-09-10T10:12:35: 
+2024-09-10T10:12:35: Processing URLs within Master URL:  52%|█████▏    | 64/123 [01:59<01:54,  1.94s/it][A
+2024-09-10T10:12:37: 
+2024-09-10T10:12:37: Processing URLs within Master URL:  53%|█████▎    | 65/123 [02:01<01:49,  1.89s/it][A
+2024-09-10T10:12:39: Processing URLs within Master URL:  53%|█████▎    | 65/123 [02:03<01:50,  1.90s/it]
+2024-09-10T10:12:39: Processing URLs:  10%|█         | 1/10 [02:05<18:53, 125.96s/it]
+2024-09-10T10:12:39: Traceback (most recent call last):
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 141, in <module>
+2024-09-10T10:12:39:     masterScraper()
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 121, in masterScraper
+2024-09-10T10:12:39:     article = get_article(link)
+2024-09-10T10:12:39:               ^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 34, in get_article
+2024-09-10T10:12:39:     article.download()
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/newspaper/article.py", line 170, in download
+2024-09-10T10:12:39:     html = network.get_html_2XX_only(self.url, self.config)
+2024-09-10T10:12:39:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/newspaper/network.py", line 62, in get_html_2XX_only
+2024-09-10T10:12:39:     response = requests.get(
+2024-09-10T10:12:39:                ^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/api.py", line 73, in get
+2024-09-10T10:12:39:     return request("get", url, params=params, **kwargs)
+2024-09-10T10:12:39: ^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/api.py", line 59, in request
+2024-09-10T10:12:39:     return session.request(method=method, url=url, **kwargs)
+2024-09-10T10:12:39:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+2024-09-10T10:12:39:     resp = self.send(prep, **send_kwargs)
+2024-09-10T10:12:39: ^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+2024-09-10T10:12:39:     r = adapter.send(request, **kwargs)
+2024-09-10T10:12:39:         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+2024-09-10T10:12:39:     resp = conn.urlopen(
+2024-09-10T10:12:39:         ^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+2024-09-10T10:12:39:     response = self._make_request(
+2024-09-10T10:12:39:            ^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+2024-09-10T10:12:39:     response = conn.getresponse()
+2024-09-10T10:12:39:                ^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 464, in getresponse
+2024-09-10T10:12:39:     httplib_response = super().getresponse()
+2024-09-10T10:12:39:                        ^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/client.py", line 1428, in getresponse
+2024-09-10T10:12:39:     response.begin()
+2024-09-10T10:12:39:   File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/client.py", line 331, in begin
+2024-09-10T10:12:39:     version, status, reason = self._read_status()
+2024-09-10T10:12:39:                               ^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/http/client.py", line 292, in _read_status
+2024-09-10T10:12:39:     line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+2024-09-10T10:12:39:         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/socket.py", line 708, in readinto
+2024-09-10T10:12:39:     return self._sock.recv_into(b)
+2024-09-10T10:12:39:            ^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1252, in recv_into
+2024-09-10T10:12:39:     return self.read(nbytes, buffer)
+2024-09-10T10:12:39:            ^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39:   File "/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1104, in read
+2024-09-10T10:12:39:     return self._sslobj.read(len, buffer)
+2024-09-10T10:12:39:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:12:39: KeyboardInterrupt
+2024-09-10T10:12:51: Starting scraping session at Tue Sep 10 10:12:51 2024...
+2024-09-10T10:12:51: Processing URLs:   0%|          | 0/10 [00:00<?, ?it/s]
+2024-09-10T10:12:53: The number of links: 0
+2024-09-10T10:12:53: 
+2024-09-10T10:12:53: Processing URLs within Master URL: 0it [00:00, ?it/s][AProcessing URLs within Master URL: 0it [00:00, ?it/s]
+2024-09-10T10:12:55: The number of links: 123
+2024-09-10T10:12:55: 
+2024-09-10T10:12:57: 
+2024-09-10T10:12:57: Processing URLs within Master URL:   1%|          | 1/123 [00:01<03:34,  1.76s/it][A
+2024-09-10T10:13:00: 
+2024-09-10T10:13:00: Processing URLs within Master URL:   2%|▏         | 2/123 [00:04<04:57,  2.46s/it][A
+2024-09-10T10:13:02: 
+2024-09-10T10:13:02: Processing URLs within Master URL:   2%|▏         | 3/123 [00:06<04:24,  2.20s/it][A
+2024-09-10T10:13:04: Writing articles to data.json...
+2024-09-10T10:13:04: 
+2024-09-10T10:13:04: Processing URLs within Master URL:   3%|▎         | 4/123 [00:08<04:19,  2.18s/it][A
+2024-09-10T10:13:06: 
+2024-09-10T10:13:06: Processing URLs within Master URL:   4%|▍         | 5/123 [00:10<03:58,  2.02s/it][A
+2024-09-10T10:13:08: 
+2024-09-10T10:13:08: Processing URLs within Master URL:   5%|▍         | 6/123 [00:12<03:52,  1.98s/it][A
+2024-09-10T10:13:10: 
+2024-09-10T10:13:10: Processing URLs within Master URL:   6%|▌         | 7/123 [00:14<04:09,  2.15s/it][A
+2024-09-10T10:13:12: Writing articles to data.json...
+2024-09-10T10:13:12: 
+2024-09-10T10:13:12: Processing URLs within Master URL:   7%|▋         | 8/123 [00:16<03:52,  2.02s/it][A
+2024-09-10T10:13:14: 
+2024-09-10T10:13:14: Processing URLs within Master URL:   7%|▋         | 9/123 [00:18<03:51,  2.03s/it][A
+2024-09-10T10:13:16: 
+2024-09-10T10:13:16: Processing URLs within Master URL:   8%|▊         | 10/123 [00:20<03:50,  2.04s/it][A
+2024-09-10T10:13:18: 
+2024-09-10T10:13:18: Processing URLs within Master URL:   9%|▉         | 11/123 [00:23<04:01,  2.15s/it][A
+2024-09-10T10:13:21: Writing articles to data.json...
+2024-09-10T10:13:21: 
+2024-09-10T10:13:21: Processing URLs within Master URL:  10%|▉         | 12/123 [00:25<03:59,  2.16s/it][A
+2024-09-10T10:13:22: 
+2024-09-10T10:13:22: Processing URLs within Master URL:  11%|█         | 13/123 [00:27<03:49,  2.09s/it][A
+2024-09-10T10:13:24: 
+2024-09-10T10:13:24: Processing URLs within Master URL:  11%|█▏        | 14/123 [00:29<03:40,  2.02s/it][A
+2024-09-10T10:13:26: 
+2024-09-10T10:13:26: Processing URLs within Master URL:  12%|█▏        | 15/123 [00:31<03:38,  2.03s/it][A
+2024-09-10T10:13:28: Writing articles to data.json...
+2024-09-10T10:13:28: 
+2024-09-10T10:13:28: Processing URLs within Master URL:  13%|█▎        | 16/123 [00:32<03:28,  1.95s/it][A
+2024-09-10T10:13:30: 
+2024-09-10T10:13:30: Processing URLs within Master URL:  14%|█▍        | 17/123 [00:35<03:31,  1.99s/it][A
+2024-09-10T10:13:32: 
+2024-09-10T10:13:32: Processing URLs within Master URL:  15%|█▍        | 18/123 [00:37<03:32,  2.03s/it][A
+2024-09-10T10:13:34: 
+2024-09-10T10:13:34: Processing URLs within Master URL:  15%|█▌        | 19/123 [00:39<03:28,  2.00s/it][A
+2024-09-10T10:13:37: Writing articles to data.json...
+2024-09-10T10:13:37: 
+2024-09-10T10:13:37: Processing URLs within Master URL:  16%|█▋        | 20/123 [00:41<03:32,  2.07s/it][A
+2024-09-10T10:13:38: 
+2024-09-10T10:13:38: Processing URLs within Master URL:  17%|█▋        | 21/123 [00:43<03:24,  2.01s/it][A
+2024-09-10T10:13:40: 
+2024-09-10T10:13:40: Processing URLs within Master URL:  18%|█▊        | 22/123 [00:44<03:13,  1.91s/it][A
+2024-09-10T10:13:42: 
+2024-09-10T10:13:44: Writing articles to data.json...
+2024-09-10T10:13:44: 
+2024-09-10T10:13:44: Processing URLs within Master URL:  20%|█▉        | 24/123 [00:48<03:06,  1.89s/it][A
+2024-09-10T10:13:46: 
+2024-09-10T10:13:46: Processing URLs within Master URL:  20%|██        | 25/123 [00:50<03:06,  1.90s/it][A
+2024-09-10T10:13:47: 
+2024-09-10T10:13:47: Processing URLs within Master URL:  21%|██        | 26/123 [00:52<02:58,  1.84s/it][A
+2024-09-10T10:13:49: 
+2024-09-10T10:13:49: Processing URLs within Master URL:  22%|██▏       | 27/123 [00:54<03:03,  1.91s/it][A
+2024-09-10T10:13:51: Writing articles to data.json...
+2024-09-10T10:13:51: 
+2024-09-10T10:13:51: Processing URLs within Master URL:  23%|██▎       | 28/123 [00:55<02:53,  1.83s/it][A
+2024-09-10T10:13:53: 
+2024-09-10T10:13:53: Processing URLs within Master URL:  24%|██▎       | 29/123 [00:57<02:46,  1.77s/it][A
+2024-09-10T10:13:55: 
+2024-09-10T10:13:55: Processing URLs within Master URL:  24%|██▍       | 30/123 [00:59<02:52,  1.85s/it][A
+2024-09-10T10:13:57: 
+2024-09-10T10:13:57: Processing URLs within Master URL:  25%|██▌       | 31/123 [01:01<02:51,  1.86s/it][A
+2024-09-10T10:13:59: Writing articles to data.json...
+2024-09-10T10:13:59: 
+2024-09-10T10:13:59: Processing URLs within Master URL:  26%|██▌       | 32/123 [01:03<02:56,  1.94s/it][A
+2024-09-10T10:14:01: 
+2024-09-10T10:14:01: Processing URLs within Master URL:  27%|██▋       | 33/123 [01:05<02:49,  1.88s/it][A
+2024-09-10T10:14:02: 
+2024-09-10T10:14:02: Processing URLs within Master URL:  28%|██▊       | 34/123 [01:07<02:44,  1.85s/it][A
+2024-09-10T10:14:06: 
+2024-09-10T10:14:06: Processing URLs within Master URL:  28%|██▊       | 35/123 [01:10<03:37,  2.47s/it][A
+2024-09-10T10:14:06: Processing URLs within Master URL:  28%|██▊       | 35/123 [01:11<02:58,  2.03s/it]
+2024-09-10T10:14:06: 
+2024-09-10T10:14:06: Processing URLs:  10%|█         | 1/10 [01:15<11:19, 75.51s/it]
+2024-09-10T10:14:06: Traceback (most recent call last):
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 141, in <module>
+2024-09-10T10:14:06:     masterScraper()
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 121, in masterScraper
+2024-09-10T10:14:06:     article = get_article(link)
+2024-09-10T10:14:06:               ^^^^^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 34, in get_article
+2024-09-10T10:14:06:     article.download()
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/newspaper/article.py", line 170, in download
+2024-09-10T10:14:06:     html = network.get_html_2XX_only(self.url, self.config)
+2024-09-10T10:14:06:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/newspaper/network.py", line 62, in get_html_2XX_only
+2024-09-10T10:14:06:     response = requests.get(
+2024-09-10T10:14:06:                ^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/api.py", line 73, in get
+2024-09-10T10:14:06:     return request("get", url, params=params, **kwargs)
+2024-09-10T10:14:06:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/api.py", line 59, in request
+2024-09-10T10:14:06:     return session.request(method=method, url=url, **kwargs)
+2024-09-10T10:14:06:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+2024-09-10T10:14:06:     resp = self.send(prep, **send_kwargs)
+2024-09-10T10:14:06:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+2024-09-10T10:14:06:     r = adapter.send(request, **kwargs)
+2024-09-10T10:14:06:         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+2024-09-10T10:14:06:     resp = conn.urlopen(
+2024-09-10T10:14:06:          ^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+2024-09-10T10:14:06:     response = self._make_request(
+2024-09-10T10:14:06:         ^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+2024-09-10T10:14:06:     self._validate_conn(conn)
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1095, in _validate_conn
+2024-09-10T10:14:06:     conn.connect()
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 615, in connect
+2024-09-10T10:14:06:     self.sock = sock = self._new_conn()
+2024-09-10T10:14:06:                        ^^^^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 196, in _new_conn
+2024-09-10T10:14:06:     sock = connection.create_connection(
+2024-09-10T10:14:06: ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:14:06:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+2024-09-10T10:14:06:     sock.connect(sa)
+2024-09-10T10:14:06: KeyboardInterrupt
+2024-09-10T10:17:01: Starting scraping session at Tue Sep 10 10:17:01 2024...
+2024-09-10T10:17:01: Processing URLs:   0%|          | 0/10 [00:00<?, ?it/s]
+2024-09-10T10:17:04: The number of links: 0
+2024-09-10T10:17:04: 
+2024-09-10T10:17:04: Processing URLs within Master URL: 0it [00:00, ?it/s][AProcessing URLs within Master URL: 0it [00:00, ?it/s]
+2024-09-10T10:17:07: The number of links: 123
+2024-09-10T10:17:07: 
+2024-09-10T10:17:09: 
+2024-09-10T10:17:09: Processing URLs within Master URL:   1%|          | 1/123 [00:01<03:26,  1.69s/it][A
+2024-09-10T10:17:12: 
+2024-09-10T10:17:12: Processing URLs within Master URL:   2%|▏         | 2/123 [00:04<04:46,  2.37s/it][A
+2024-09-10T10:17:14: 
+2024-09-10T10:17:14: Processing URLs within Master URL:   2%|▏         | 3/123 [00:06<04:24,  2.20s/it][A
+2024-09-10T10:17:15: Writing articles to data.json...
+2024-09-10T10:17:16: 
+2024-09-10T10:17:16: Processing URLs within Master URL:   3%|▎         | 4/123 [00:08<04:05,  2.06s/it][A
+2024-09-10T10:17:17: 
+2024-09-10T10:17:17: Processing URLs within Master URL:   4%|▍         | 5/123 [00:10<03:59,  2.03s/it][A
+2024-09-10T10:17:20: 
+2024-09-10T10:17:20: Processing URLs within Master URL:   5%|▍         | 6/123 [00:12<04:05,  2.10s/it][A
+2024-09-10T10:17:22: 
+2024-09-10T10:17:22: Processing URLs within Master URL:   6%|▌         | 7/123 [00:14<03:57,  2.05s/it][A
+2024-09-10T10:17:24: Writing articles to data.json...
+2024-09-10T10:17:24: 
+2024-09-10T10:17:24: Processing URLs within Master URL:   7%|▋         | 8/123 [00:16<03:52,  2.02s/it][A
+2024-09-10T10:17:25: 
+2024-09-10T10:17:25: Processing URLs within Master URL:   7%|▋         | 9/123 [00:18<03:44,  1.97s/it][A
+2024-09-10T10:17:27: 
+2024-09-10T10:17:27: Processing URLs within Master URL:   8%|▊         | 10/123 [00:19<03:30,  1.86s/it][A
+2024-09-10T10:17:29: 
+2024-09-10T10:17:29: Processing URLs within Master URL:   9%|▉         | 11/123 [00:21<03:22,  1.81s/it][A
+2024-09-10T10:17:31: Writing articles to data.json...
+2024-09-10T10:17:31: 
+2024-09-10T10:17:31: Processing URLs within Master URL:  10%|▉         | 12/123 [00:23<03:25,  1.85s/it][A
+2024-09-10T10:17:33: 
+2024-09-10T10:17:33: Processing URLs within Master URL:  11%|█         | 13/123 [00:25<03:26,  1.88s/it][A
+2024-09-10T10:17:35: 
+2024-09-10T10:17:35: Processing URLs within Master URL:  11%|█▏        | 14/123 [00:27<03:29,  1.92s/it][A
+2024-09-10T10:17:35: Processing URLs within Master URL:  11%|█▏        | 14/123 [00:27<03:34,  1.97s/it]
+2024-09-10T10:17:35: Processing URLs:  10%|█         | 1/10 [00:33<05:01, 33.49s/it]
+2024-09-10T10:17:35: Traceback (most recent call last):
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 141, in <module>
+2024-09-10T10:17:35:     masterScraper()
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 121, in masterScraper
+2024-09-10T10:17:35:     article = get_article(link)
+2024-09-10T10:17:35:               ^^^^^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/scraper.py", line 34, in get_article
+2024-09-10T10:17:35:     article.download()
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/newspaper/article.py", line 170, in download
+2024-09-10T10:17:35:     html = network.get_html_2XX_only(self.url, self.config)
+2024-09-10T10:17:35:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/newspaper/network.py", line 62, in get_html_2XX_only
+2024-09-10T10:17:35:     response = requests.get(
+2024-09-10T10:17:35:        ^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/api.py", line 73, in get
+2024-09-10T10:17:35:     return request("get", url, params=params, **kwargs)
+2024-09-10T10:17:35:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/api.py", line 59, in request
+2024-09-10T10:17:35:     return session.request(method=method, url=url, **kwargs)
+2024-09-10T10:17:35:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+2024-09-10T10:17:35:     resp = self.send(prep, **send_kwargs)
+2024-09-10T10:17:35:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+2024-09-10T10:17:35:     r = adapter.send(request, **kwargs)
+2024-09-10T10:17:35:         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+2024-09-10T10:17:35:     resp = conn.urlopen(
+2024-09-10T10:17:35:            ^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+2024-09-10T10:17:35:     response = self._make_request(
+2024-09-10T10:17:35:               ^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 466, in _make_request
+2024-09-10T10:17:35:     self._validate_conn(conn)
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 1095, in _validate_conn
+2024-09-10T10:17:35:     conn.connect()
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 615, in connect
+2024-09-10T10:17:35:     self.sock = sock = self._new_conn()
+2024-09-10T10:17:35:                        ^^^^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 196, in _new_conn
+2024-09-10T10:17:35:     sock = connection.create_connection(
+2024-09-10T10:17:35:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2024-09-10T10:17:35:   File "/Volumes/Dev Drive/PSG Codebases/News_Scraper_and_Display/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+2024-09-10T10:17:35:     sock.connect(sa)
+2024-09-10T10:17:35: KeyboardInterrupt
