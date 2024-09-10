@@ -24,7 +24,7 @@ pip install -r requirements.txt
 npm install -g pm2
 
 # Navigate to Next.js app directory
-cd ai-website
+cd ai-lab-news-website
 
 # Install Node.js dependencies
 npm install
