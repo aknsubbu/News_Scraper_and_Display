@@ -8,15 +8,16 @@
    - [Python Scraper](#python-scraper)
    - [Next.js Website](#nextjs-website)
 4. [PM2 Configuration](#pm2-configuration)
-5. [Execution Process](#execution-process)
-6. [Development Workflow](#development-workflow)
-7. [Deployment](#deployment)
-8. [Maintenance and Monitoring](#maintenance-and-monitoring)
-9. [Troubleshooting](#troubleshooting)
+5. [Docker Setup](#docker-setup)
+6. [Execution Process](#execution-process)
+7. [Development Workflow](#development-workflow)
+8. [Deployment](#deployment)
+9. [Maintenance and Monitoring](#maintenance-and-monitoring)
+10. [Troubleshooting](#troubleshooting)
 
 ## Project Overview
 
-The Scraper News Website is a dynamic web application that automatically collects and displays news articles from various sources. It consists of two main components: a Python-based web scraper and a Next.js frontend website. The system uses PM2 for process management, ensuring both components run continuously and reliably.
+The Scraper News Website is a dynamic web application that automatically collects and displays news articles from various sources. It consists of two main components: a Python-based web scraper and a Next.js frontend website. The system uses PM2 for process management, ensuring both components run continuously and reliably. The entire application is containerized using Docker for easy deployment and scalability.
 
 ## System Architecture
 
@@ -24,7 +25,8 @@ The system is built with a microservices architecture:
 
 1. **Python Scraper**: A backend service that periodically scrapes news websites, processes the data, and stores it in a JSON file.
 2. **Next.js Website**: A frontend application that reads the JSON file and presents the news articles in a user-friendly interface.
-3. **PM2**: A process manager that runs and monitors both the scraper and the website.
+3. **PM2**: A process manager that runs and monitors both the scraper and the website within the Docker container.
+4. **Docker**: A containerization platform that encapsulates the entire application and its dependencies.
 
 ## Components
 
@@ -63,7 +65,7 @@ Key features:
 File structure:
 
 ```
-./ai-website/
+./ai-lab-news-website/
 ├── pages/
 ├── components/
 ├── public/
@@ -74,7 +76,7 @@ File structure:
 
 ## PM2 Configuration
 
-PM2 is used to manage both the Python scraper and the Next.js website. The configuration is defined in `ecosystem.config.js`:
+PM2 is used to manage both the Python scraper and the Next.js website within the Docker container. The configuration is defined in `ecosystem.config.js`:
 
 ```javascript
 module.exports = {
@@ -83,23 +85,23 @@ module.exports = {
       name: "nextjs-app",
       script: "npm",
       args: "start",
-      cwd: "./ai-website",
+      cwd: "/app/ai-lab-news-website",
       env: {
         NODE_ENV: "production",
       },
     },
     {
       name: "python-scraper",
-      script: ".venv/bin/python",
+      script: "/app/.venv/bin/python",
       args: "scraper.py",
-      cwd: "./",
+      cwd: "/app",
       interpreter: "none",
       env: {
         PYTHONUNBUFFERED: "1",
       },
-      error_file: "logs/scraper-error.log",
-      out_file: "logs/scraper-out.log",
-      log_file: "logs/scraper-combined.log",
+      error_file: "/app/logs/scraper-error.log",
+      out_file: "/app/logs/scraper-out.log",
+      log_file: "/app/logs/scraper-combined.log",
       time: true,
     },
   ],
@@ -111,69 +113,166 @@ This configuration:
 - Defines two apps: `nextjs-app` and `python-scraper`.
 - Specifies the working directory, start command, and environment variables for each app.
 - Sets up logging for the Python scraper.
+- Uses absolute paths within the Docker container (`/app/`) to ensure correct execution.
+
+## Docker Setup
+
+The application is containerized using Docker, which allows for consistent deployment across different environments. The Docker setup consists of two main files:
+
+### Dockerfile
+
+```dockerfile
+# Use an official Ubuntu as a parent image
+FROM ubuntu:20.04
+
+# Avoid prompts from apt
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    NODE_VERSION=18.x
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    sudo \
+    python3 \
+    python3-pip \
+    python3-venv \
+    && curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set work directory
+WORKDIR /app
+
+# Copy project files
+COPY . /app/
+
+# Make build.sh executable
+RUN chmod +x build.sh
+
+# Run build.sh
+RUN ./build.sh
+
+# Expose port 3000 for the Next.js app
+EXPOSE 3000
+
+# Start PM2 processes
+CMD ["pm2-runtime", "start", "ecosystem.config.js"]
+```
+
+This Dockerfile:
+
+- Uses Ubuntu 20.04 as the base image.
+- Installs necessary system dependencies.
+- Copies the project files into the container.
+- Runs the `build.sh` script to set up the application.
+- Exposes port 3000 for the Next.js app.
+- Uses PM2 runtime to start the applications.
+
+### docker-compose.yml
+
+```yaml
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./logs:/app/logs
+    environment:
+      - NODE_ENV=production
+      - DEBIAN_FRONTEND=noninteractive
+```
+
+This docker-compose file:
+
+- Defines a single service called `app`.
+- Builds the Docker image using the Dockerfile in the current directory.
+- Maps port 3000 from the container to the host.
+- Creates a volume for logs, allowing persistence and easy access from the host.
+- Sets environment variables for production mode and non-interactive Debian frontend.
 
 ## Execution Process
 
 The execution process involves several steps:
 
-1. **System Preparation**:
+1. **Docker Build**:
 
-   - Install required system packages (Python, Node.js, etc.).
-   - Set up a Python virtual environment.
-   - Install global npm packages (PM2, TypeScript, ts-node).
+   - Build the Docker image using the Dockerfile.
+   - This process installs all dependencies and runs the `build.sh` script.
 
-2. **Application Setup**:
+2. **Docker Run**:
 
-   - Install Python dependencies from `requirements.txt`.
-   - Install Node.js dependencies for the Next.js app.
-   - Build the Next.js application.
+   - Start the Docker container using docker-compose.
+   - The container runs PM2, which starts both the Python scraper and Next.js website.
 
-3. **PM2 Initialization**:
-
-   - Start both applications using the PM2 ecosystem file.
-   - Set up PM2 to start on system boot.
-
-4. **Continuous Operation**:
-   - The Python scraper runs periodically, updating `data.json`.
+3. **Continuous Operation**:
+   - The Python scraper runs periodically within the container, updating `data.json`.
    - The Next.js website serves the latest data to users.
-   - PM2 monitors both processes, restarting them if they crash.
+   - PM2 monitors both processes inside the container, restarting them if they crash.
 
 ## Development Workflow
 
 1. **Scraper Development**:
 
-   - Activate the virtual environment: `source .venv/bin/activate`
    - Make changes to `scraper.py`
-   - Test the scraper: `python scraper.py`
+   - Test the scraper locally: `python scraper.py`
    - Update `requirements.txt` if new dependencies are added
 
 2. **Website Development**:
 
-   - Navigate to the Next.js directory: `cd ai-website`
+   - Navigate to the Next.js directory: `cd ai-lab-news-website`
    - Run the development server: `npm run dev`
    - Make changes and test in real-time
 
-3. **Testing with PM2**:
-   - Use the provided `test_pm2.sh` script to test PM2 configuration
-   - Monitor logs and performance using PM2 commands
+3. **Docker Development**:
+
+   - Make changes to the Dockerfile or docker-compose.yml as needed
+   - Build and run the container locally:
+     ```
+     docker-compose up --build
+     ```
+   - Test the entire application within the Docker environment
+
+4. **Testing PM2 Configuration**:
+   - Modify the `ecosystem.config.js` file as needed
+   - Test PM2 configuration within the Docker container:
+     ```
+     docker-compose up --build
+     docker exec -it <container_name> pm2 list
+     docker exec -it <container_name> pm2 logs
+     ```
 
 ## Deployment
 
 1. Ensure all changes are committed and pushed to the repository.
 2. On the hosting platform, pull the latest changes.
-3. Run the build script: `./build.sh`
-4. The build script will:
+3. Build and run the Docker container:
+   ```
+   docker-compose up --build -d
+   ```
+4. The Docker build process will:
    - Set up the environment
    - Install dependencies
    - Build the Next.js app
-   - Start the applications using PM2
+   - Start the applications using PM2 within the container
 
 ## Maintenance and Monitoring
 
-- Regularly check PM2 logs: `pm2 logs`
-- Monitor application status: `pm2 monit`
-- Update dependencies periodically and test thoroughly
-- Review and update the list of news sources in the scraper as needed
+- Use Docker commands to manage the container:
+  - View logs: `docker-compose logs`
+  - Restart the container: `docker-compose restart`
+- Use docker exec to run PM2 commands inside the container if needed:
+  - `docker exec -it <container_name> pm2 logs`
+  - `docker exec -it <container_name> pm2 monit`
+- Regularly update dependencies and rebuild the Docker image
+- Monitor system resource usage and scale as needed
 - Implement alerts for any critical errors or prolonged downtime
 
 ## Troubleshooting
@@ -182,25 +281,34 @@ Common issues and solutions:
 
 1. **Scraper not updating data**:
 
-   - Check scraper logs: `pm2 logs python-scraper`
-   - Verify network connectivity
+   - Check scraper logs: `docker-compose logs app`
+   - Verify network connectivity within the container
    - Ensure news source websites haven't changed their structure
 
 2. **Next.js website not displaying latest news**:
 
-   - Verify `data.json` is being updated
-   - Check file permissions
-   - Restart the Next.js app: `pm2 restart nextjs-app`
+   - Verify `data.json` is being updated within the container
+   - Check file permissions inside the container
+   - Restart the container: `docker-compose restart`
 
 3. **PM2 processes crashing**:
 
-   - Review error logs
+   - Review PM2 logs inside the container:
+     ```
+     docker exec -it <container_name> pm2 logs
+     ```
    - Check for system resource constraints
-   - Ensure all dependencies are correctly installed
+   - Ensure all dependencies are correctly installed in the Dockerfile
 
-4. **High server load**:
-   - Optimize scraper frequency
+4. **Docker container not starting**:
+
+   - Check Docker logs: `docker-compose logs`
+   - Verify Dockerfile and docker-compose.yml for errors
+   - Ensure all required files are present in the project directory
+
+5. **High server load**:
+   - Optimize scraper frequency in the PM2 configuration
    - Implement caching in the Next.js app
-   - Consider scaling hardware resources
+   - Consider scaling Docker resources or using Docker Swarm for load balancing
 
-For any persistent issues, review the comprehensive logs, check system resources, and consider reaching out to the development team or consulting the documentation of individual components (Python libraries, Next.js, PM2).
+For any persistent issues, review the comprehensive logs (both Docker and PM2), check system resources, and consider reaching out to the development team or consulting the documentation of individual components (Docker, Python libraries, Next.js, PM2).
