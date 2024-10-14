@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "nextjs-app",
+      name: "nextjs-frontend",
       script: "npm",
       args: "start",
       cwd: "./ai-lab-news-website",

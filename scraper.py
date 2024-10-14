@@ -1,43 +1,56 @@
+import asyncio
+import aiohttp
 from bs4 import BeautifulSoup
-import requests
 import json
 import newspaper
 import time
 from tqdm import tqdm
 import os
 from datetime import datetime
+import logging
+from urllib.parse import urljoin
 
-def get_urls(url: str) -> list[str]:
-    base_urls = {
-        'verge': 'https://www.theverge.com/',
-        'techcrunch': 'https://techcrunch.com/',
-        'wired': 'https://www.wired.com/'
-    }
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-    def isNewsURL(url: str) -> bool:
-        for base_url in base_urls.values():
-            if base_url in url:
-                return True
-        return False
+base_urls = {
+    'verge': 'https://www.theverge.com/',
+    'techcrunch': 'https://techcrunch.com/',
+    'wired': 'https://www.wired.com/',
+    'techcrunch_ai': 'https://techcrunch.com/category/artificial-intelligence/',
+    'techcrunch_startups':'https://techcrunch.com/category/startups/',
+    'verge_ai':'https://www.theverge.com/ai-artificial-intelligence',
+    'arstechnica':"https://arstechnica.com",
+    'engadget':"https://www.engadget.com/?guccounter=1",
+    'cnet':"https://www.cnet.com",
+    'techradar':"https://www.techradar.com",
+}
 
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    urls = []
-    for link in soup.find_all('a'):
-        if link.get('href') and isNewsURL(link.get('href')):
-            urls.append(link.get('href'))
-    return urls
+async def get_urls(session, url):
+    try:
+        async with session.get(url) as response:
+            if response.status != 200:
+                logging.warning(f"Failed to fetch {url}: HTTP {response.status}")
+                return []
+            html = await response.text()
+        soup = BeautifulSoup(html, 'html.parser')
+        urls = [urljoin(url, link.get('href')) for link in soup.find_all('a', href=True)
+                if any(base_url in urljoin(url, link.get('href')) for base_url in base_urls.values())]
+        return list(set(urls))  # Remove duplicates
+    except Exception as e:
+        logging.error(f"Error fetching URLs from {url}: {e}")
+        return []
 
-def get_article(url: str):
+async def get_article(session, url):
     article = newspaper.Article(url=url, language='en')
     try:
-        article.download()
-        article.parse()
+        await asyncio.to_thread(article.download)
+        await asyncio.to_thread(article.parse)
     except Exception as e:
-        print(f"Error processing {url}: {e}")
-        return None  # Return None if there's an error
+        logging.error(f"Error processing {url}: {e}")
+        return None
 
-    article_data = {
+    return {
         'title': str(article.title),
         'text': str(article.text),
         'authors': str(article.authors),
@@ -49,8 +62,6 @@ def get_article(url: str):
         'displayed': 0
     }
 
-    return article_data
-
 def read_existing_articles():
     try:
         with open('data.json', 'r') as f:
@@ -59,83 +70,74 @@ def read_existing_articles():
     except (FileNotFoundError, json.JSONDecodeError):
         existing_articles = []
         existing_urls = set()
-
     return existing_articles, existing_urls
 
 def write_articles_to_file(articles):
-    try:
-        with open('data.json', 'r') as f:
-            existing_articles = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        existing_articles = []
-
-    existing_urls = {article['url'] for article in existing_articles}
-
-    # Filter out duplicates and add new articles
+    existing_articles, existing_urls = read_existing_articles()
     new_articles = [article for article in articles if article['url'] not in existing_urls]
-    
-    # Combine new and existing articles
     all_articles = new_articles + existing_articles
-    
-    # Sort all articles by timestamp (newest first)
     all_articles.sort(key=lambda x: float(x['timestamp']), reverse=True)
-
-    # Write all articles back to the file
     with open('data.json', 'w') as f:
         json.dump(all_articles, f, indent=4)
+    logging.info(f"Added {len(new_articles)} new articles to data.json")
 
 def archive_data_json():
     if os.path.exists('data.json'):
         now = datetime.now()
         archive_folder = 'data_archives'
-        if not os.path.exists(archive_folder):
-            os.makedirs(archive_folder)
+        os.makedirs(archive_folder, exist_ok=True)
         archive_file = os.path.join(archive_folder, f'data_{now.strftime("%Y%m%d_%H%M%S")}.json')
         os.rename('data.json', archive_file)
-        print(f'Archived data.json to {archive_file}')
-        open('data.json', 'w').close()  # Create a new empty data.json file
+        logging.info(f'Archived data.json to {archive_file}')
+        open('data.json', 'w').close()
 
-def masterScraper():
-    url_master = [
-        'https://www.theverge.com/',
-        'https://techcrunch.com/',
-        'https://www.wired.com/',
-        'https://techcrunch.com/category/artificial-intelligence/',
-        'https://techcrunch.com/category/startups/',
-        'https://www.theverge.com/ai-artificial-intelligence',
-        "https://arstechnica.com",
-        "https://www.engadget.com/?guccounter=1",
-        "https://www.cnet.com",
-        "https://www.techradar.com",
-    ]
+async def process_url(session, url):
+    urls = await get_urls(session, url)
+    logging.info(f'Number of links from {url}: {len(urls)}')
+    articles = []
+    for link in tqdm(urls, desc=f"Processing URLs from {url}", leave=False):
+        article = await get_article(session, link)
+        if article:
+            articles.append(article)
+    return articles
+
+async def masterScraper():
+    url_master = list(base_urls.values())
     
     while True:
         start_time = time.time()
-        print(f"Starting scraping session at {time.ctime(start_time)}...")
-        all_articles = []  # Initialize an empty list to store articles
-
-        for url in tqdm(url_master, desc="Processing URLs"):
-            urls = get_urls(url)
-            print(f'The number of links: {len(urls)}')
-            for link in tqdm(urls, desc="Processing URLs within Master URL"):
-                article = get_article(link)
-                if article:
-                    all_articles.append(article)
+        logging.info(f"Starting scraping session at {time.ctime(start_time)}...")
+        
+        all_articles = []
+        
+        async with aiohttp.ClientSession() as session:
+            for url in tqdm(url_master, desc="Processing URLs"):
+                urls = await get_urls(session, url)
+                logging.info(f'Number of links from {url}: {len(urls)}')
                 
-                # Write to file every 10 articles or if it's the last article
-                if len(all_articles) % 4 == 0 or link == urls[-1]:
-                    print("Writing articles to data.json...")
-                    write_articles_to_file(all_articles)
-                    all_articles = []  # Clear the list after writing
-
+                for link in tqdm(urls, desc=f"Processing URLs from {url}", leave=False):
+                    article = await get_article(session, link)
+                    if article:
+                        all_articles.append(article)
+                        
+                    # Write to file every 10 articles
+                    if len(all_articles) >= 10:
+                        write_articles_to_file(all_articles)
+                        all_articles = []
+        
+        # Write any remaining articles
+        if all_articles:
+            write_articles_to_file(all_articles)
+        
         end_time = time.time()
         elapsed_time = end_time - start_time
         if elapsed_time < 300:  # 5 minutes
-            print("Scraping session completed. Waiting before next session...")
-            time.sleep(15)  # Wait for 15 seconds before starting the next scraping session
+            logging.info("Scraping session completed. Waiting before next session...")
+            await asyncio.sleep(15)
         else:
-            print("No new links found in 5 minutes. Archiving data.json and starting a new scraping session.")
+            logging.info("No new links found in 5 minutes. Archiving data.json and starting a new scraping session.")
             archive_data_json()
 
-# Run the masterScraper function
-masterScraper()
+
+if __name__ == "__main__":
+    asyncio.run(masterScraper())
