@@ -3,20 +3,21 @@ module.exports = {
     {
       name: "nextjs-frontend",
       script: "npm",
-      args: "start",
+      args: "start -- --port 8080", // Modified this line
       cwd: "./ai-lab-news-website",
       env: {
         NODE_ENV: "production",
+        PORT: "8080", // Added this line to set the PORT environment variable
       },
     },
     {
       name: "python-scraper",
-      script: ".venv/bin/python", // Path to Python in your virtual environment
-      args: "scraper.py", // Your Python scraper script
-      cwd: "./", // Root directory where the scraper script is located
-      interpreter: "none", // Let PM2 use the specified Python interpreter
+      script: ".venv/bin/python",
+      args: "scraper.py",
+      cwd: "./",
+      interpreter: "none",
       env: {
-        PYTHONUNBUFFERED: "1", // Ensures Python output is sent to PM2 logs immediately
+        PYTHONUNBUFFERED: "1",
       },
       error_file: "logs/scraper-error.log",
       out_file: "logs/scraper-out.log",
